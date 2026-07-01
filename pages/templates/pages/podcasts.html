@@ -1,0 +1,1020 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Turning Point — Podcast by Lakshay Kukreja</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #F8F7F4;
+  --surface: #FFFFFF;
+  --text: #1A1A1A;
+  --muted: #6B6B6B;
+  --faint: #E8E6E0;
+  --accent: #2D5BE3;
+  --accent-soft: #EEF2FD;
+  --gold: #C8860A;
+  --gold-soft: #FDF5E6;
+  --red: #E03030;
+  --red-soft: #FEF0F0;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-hover: 0 12px 40px rgba(0,0,0,0.10), 0 4px 12px rgba(0,0,0,0.06);
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── NAV ── */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(248,247,244,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--faint);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 3rem;
+  height: 64px;
+}
+
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.01em;
+  text-decoration: none;
+}
+.nav-logo span { color: var(--accent); }
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+.nav-toggle span { width: 24px; height: 2px; background: var(--text); border-radius: 2px; transition: all 0.3s ease; }
+
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--muted);
+  text-decoration: none;
+  letter-spacing: 0.03em;
+  transition: color 0.2s;
+}
+.nav-links a:hover, .nav-links a.active { color: var(--accent); }
+
+/* ── HERO — The Turning Point ── */
+.tp-hero {
+  background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.7)), url('{% static "images/WhatsApp Image 2026-06-27 at 8.42.12 PM.jpeg" %}') center/cover no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 5rem 2rem 4rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle mic wave rings in background */
+.tp-hero::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 600px;
+  height: 600px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1px solid rgba(200,134,10,0.08);
+  box-shadow:
+    0 0 0 80px rgba(200,134,10,0.04),
+    0 0 0 160px rgba(200,134,10,0.025),
+    0 0 0 260px rgba(200,134,10,0.012);
+  pointer-events: none;
+}
+
+/* Small corner image placeholder — add your own image here */
+.tp-corner-img {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: rgba(255,255,255,0.08);
+  border: 2px solid rgba(255,255,255,0.35);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+  z-index: 2;
+}
+
+.tp-corner-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .tp-corner-img {
+    width: 48px;
+    height: 48px;
+    top: 12px;
+    right: 12px;
+  }
+}
+
+/* Powered by — bottom left of hero */
+.tp-powered {
+  position: absolute;
+  bottom: 18px;
+  left: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 2;
+}
+
+.tp-powered-label {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  white-space: nowrap;
+}
+
+.tp-powered-logo {
+  height: 26px;
+  width: auto;
+  max-width: 90px;
+  object-fit: contain;
+}
+
+@media (max-width: 768px) {
+  .tp-powered {
+    bottom: 12px;
+    left: 12px;
+  }
+  .tp-powered-logo {
+    height: 20px;
+  }
+}
+
+.tp-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(200,134,10,0.12);
+  border: 1px solid rgba(200,134,10,0.25);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 999px;
+  margin-bottom: 2rem;
+}
+
+.tp-badge span {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+  animation: pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.7); }
+}
+
+/* The big clickable title */
+.tp-title-link {
+  display: inline-block;
+  text-decoration: none;
+  position: relative;
+}
+
+.tp-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3rem, 8vw, 6.5rem);
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 0.2rem;
+  transition: color 0.3s ease;
+}
+
+.tp-title em {
+  font-style: italic;
+}
+
+.tp-title-link:hover  
+
+.tp-play-hint {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 0.08em;
+  margin-top: 0.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  transition: color 0.3s ease;
+}
+
+.tp-title-link:hover 
+
+.tp-play-hint::before {
+  content: '▶';
+  font-size: 0.6rem;
+}
+
+.tp-tagline {
+  font-size: 1rem;
+  color: white;
+  margin: 1.6rem auto 2.4rem;
+  max-width: 460px;
+  line-height: 1.8;
+  font-weight: 300;
+}
+
+/* Stats strip */
+.tp-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  flex-wrap: wrap;
+  margin-top: 2.5rem;
+}
+
+.tp-stat {
+  padding: 0 2.5rem;
+  border-right: 1px solid rgba(255,255,255,0.1);
+  text-align: center;
+}
+
+.tp-stat:last-child { border-right: none; }
+
+.tp-stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+  margin-bottom: 3px;
+}
+
+.tp-stat-label {
+  font-size: 0.67rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: white;
+}
+
+/* Powered by strip */
+.powered-bar {
+  background: rgba(200,134,10,0.07);
+  border-top: 1px solid rgba(200,134,10,0.14);
+  border-bottom: 1px solid rgba(200,134,10,0.14);
+  text-align: center;
+  padding: 0.65rem;
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.28);
+  letter-spacing: 0.08em;
+  font-weight: 500;
+}
+
+.powered-bar strong {  font-weight: 600; }
+
+/* ── SECTION WRAPPER ── */
+.section-wrap {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 4.5rem 2rem;
+}
+
+.section-header { margin-bottom: 2.6rem; }
+
+.section-eyebrow {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.4rem;
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+/* ── EPISODE LIST ── */
+.episode-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.episode-card {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 1.8rem;
+  background: var(--surface);
+  border: 1px solid var(--faint);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+
+.episode-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+  border-color: rgba(200,134,10,0.25);
+}
+
+/* Thumbnail side */
+.ep-thumb-wrap {
+  position: relative;
+  aspect-ratio: 16/9;
+  background: #111;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/* For the grid layout, override aspect-ratio so it fills height */
+.episode-card .ep-thumb-wrap {
+  aspect-ratio: unset;
+  min-height: 180px;
+}
+
+.ep-thumb-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #111;
+  display: block;
+  transition: transform 0.45s ease, opacity 0.3s ease;
+}
+
+.episode-card:hover .ep-thumb-wrap img { transform: scale(1.04); }
+
+/* Play overlay */
+.ep-play-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0);
+  transition: background 0.3s ease;
+}
+
+.episode-card:hover .ep-play-overlay { background: rgba(0,0,0,0.35); }
+
+.ep-play-btn {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.92);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+  padding-left: 3px;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  text-decoration: none;
+  color: var(--text);
+}
+
+.episode-card:hover .ep-play-btn {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Duration badge */
+.ep-duration {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(0,0,0,0.75);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+}
+
+/* Ep number badge */
+.ep-num-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: var(--gold);
+  color: #fff;
+  font-size: 0.64rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 999px;
+  letter-spacing: 0.06em;
+}
+
+/* Content side */
+.ep-content {
+  padding: 1.5rem 1.6rem 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.ep-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.ep-tag {
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 999px;
+}
+
+.ep-tag-business { background: var(--accent-soft); color: var(--accent); }
+.ep-tag-entrepreneurship { background: var(--gold-soft); color: var(--gold); }
+.ep-tag-leadership { background: #EDF7F2; color: #1A7A4A; }
+.ep-tag-finance { background: #FEF0F0; color: #E03030; }
+
+.ep-date {
+  font-size: 0.7rem;
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.ep-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.35;
+  margin-bottom: 0.65rem;
+  letter-spacing: -0.01em;
+}
+
+.ep-desc {
+  font-size: 0.84rem;
+  color: var(--muted);
+  line-height: 1.8;
+  margin-bottom: 1.1rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.ep-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.ep-watch-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--red);
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.5rem 1.1rem;
+  border-radius: 999px;
+  transition: all 0.22s ease;
+  letter-spacing: 0.02em;
+}
+
+.ep-watch-btn:hover {
+  background: #B82020;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(224,48,48,0.3);
+}
+
+.ep-share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: transparent;
+  color: var(--muted);
+  border: 1.5px solid var(--faint);
+  font-size: 0.78rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  text-decoration: none;
+}
+
+.ep-share-btn:hover {
+  border-color: var(--text);
+  color: var(--text);
+  transform: translateY(-2px);
+}
+
+/* ── SUBSCRIBE STRIP ── */
+.subscribe-strip {
+  background: #0D0D0D;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.subscribe-inner {
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.subscribe-inner .section-eyebrow { color: rgba(200,134,10,0.8); margin-bottom: 0.7rem; }
+
+.subscribe-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  color: #fff;
+  margin-bottom: 0.8rem;
+  letter-spacing: -0.02em;
+}
+
+.subscribe-sub {
+  font-size: 0.9rem;
+  color: white;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+}
+
+.subscribe-platforms {
+  display: flex;
+  gap: 0.8rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.platform-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.3rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.22s ease;
+  letter-spacing: 0.02em;
+  border: 1.5px solid transparent;
+}
+
+.platform-btn-yt {
+  background: var(--red);
+  color: #fff;
+}
+.platform-btn-yt:hover {
+  background: #B82020;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(224,48,48,0.32);
+}
+
+.platform-btn-spotify {
+  background: #1DB954;
+  color: #fff;
+}
+.platform-btn-spotify:hover {
+  background: #17a34a;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(29,185,84,0.32);
+}
+
+.platform-btn-outline {
+  background: transparent;
+  color: rgba(255,255,255,0.6);
+  border-color: rgba(255,255,255,0.15);
+}
+.platform-btn-outline:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  transform: translateY(-3px);
+}
+
+/* ── HOST CARD ── */
+.host-section {
+  background: var(--surface);
+  border-top: 1px solid var(--faint);
+  border-bottom: 1px solid var(--faint);
+}
+
+.host-inner {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2.4rem;
+  align-items: center;
+}
+
+.host-avatar {
+  width: 90px; height: 90px;
+  border-radius: 50%;
+  background: var(--gold-soft);
+  border: 3px solid var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--gold);
+  flex-shrink: 0;
+}
+
+.host-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.4rem;
+}
+
+.host-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+
+.host-bio {
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.8;
+  max-width: 580px;
+}
+
+.host-links {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+.host-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.76rem;
+  font-weight: 500;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 0.38rem 0.85rem;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.host-link:hover {
+  background: var(--accent);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* ── DIVIDER ── */
+.divider {
+  max-width: 1060px;
+  margin: 0 auto;
+  border: none;
+  border-top: 1px solid var(--faint);
+}
+
+/* ── SCROLL REVEAL ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible { opacity: 1; transform: none; }
+.reveal-delay-1 { transition-delay: 0.08s; }
+.reveal-delay-2 { transition-delay: 0.16s; }
+.reveal-delay-3 { transition-delay: 0.24s; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--text);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.25);
+}
+
+/* ── TOAST ── */
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--text);
+  color: #fff;
+  font-size: 0.84rem;
+  font-weight: 500;
+  padding: 0.72rem 1.4rem;
+  border-radius: 999px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.18);
+  opacity: 0;
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 999;
+  white-space: nowrap;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  nav { padding: 0 1.2rem; }
+  .nav-toggle { display: flex; }
+  .nav-links { display: none !important; }
+  .nav-links.show { display: flex !important; position: fixed; top: 64px; left: 0; right: 0; bottom: 0; flex-direction: column; background: #000; gap: 0; padding: 2rem 0; z-index: 99; }
+  .nav-links.show li { border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .nav-links.show a { display: block; padding: 1rem 2rem; color: #fff; font-size: 1.5rem; }
+
+  .episode-card {
+    grid-template-columns: 1fr;
+  }
+
+  .episode-card .ep-thumb-wrap {
+    min-height: unset;
+    aspect-ratio: 16/9;
+    width: 100%;
+  }
+
+  .ep-content {
+    padding: 1.2rem 1.2rem 1.4rem;
+  }
+
+  .host-inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .host-avatar { margin: 0 auto; }
+  .host-links { justify-content: center; }
+
+  .tp-stats { gap: 1rem; }
+  .tp-stat { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 1rem 1.5rem; }
+  .tp-stat:last-child { border-bottom: none; }
+}
+
+@media (min-width: 769px) {
+  .nav-toggle { display: none; }
+  .nav-links { display: flex !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+  <a href="/" class="nav-logo">Lakshay Kukreja</a>
+  <button class="nav-toggle" id="nt" aria-label="Menu"><span></span><span></span><span></span></button>
+  <ul class="nav-links" id="nl">
+    <li><a href="{% static 'images/Lakshay_Resume.pdf' %}" target="_blank">Resume</a></li>
+    <li><a href="{% url 'podcasts' %}">Podcast</a></li>
+    <li><a href="/blog">Blogs</a></li>
+  </ul>
+</nav>
+
+<!-- Hero — The Turning Point -->
+<div class="tp-hero">
+
+  <!-- Small image space — replace src with your own image -->
+ <div class="tp-corner-img">
+    <a href="https://youtube.com/@theturningpointbh?si=8N3xxuVKiYlbZBe6" target="_blank">
+        <img src="{% static 'images/WhatsApp Image 2026-06-27 at 8.42.12 PM.jpeg' %}"
+             alt="The Turning Point"
+             onerror="this.style.opacity='0';">
+    </a>
+</div>
+
+  <!-- Powered by — coffee shop logo, bottom left. Replace logo src -->
+  <div class="tp-powered">
+    <span class="tp-powered-label">Powered by</span>
+    <img class="tp-powered-logo" src="https://imgs.search.brave.com/5m5C5bNfdg459AdD2MubiqWIsGSeBMHkrWgwUnskDUo/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93cC5s/b2dvcy1kb3dubG9h/ZC5jb20vd3AtY29u/dGVudC91cGxvYWRz/LzIwMjAvMDYvQ2Fy/aWJvdV9Db2ZmZWVf/TG9nb19ob3Jpem9u/dGFsbHktNzAweDIz/NS5wbmc" alt="Caribou Coffee" onerror="this.style.opacity='0';" />
+  </div>
+
+  <!-- REPLACE href with your actual YouTube playlist URL -->
+    <h1 class="tp-title">The Turning <em>Point</em></h1>
+    
+  </a>
+
+  <p class="tp-tagline">A CONVERSATION THAT CHANGED EVERYTHING</p>
+
+  <div class="tp-stats">
+    <div class="tp-stat">
+      <div class="tp-stat-num">BH 1ST</div>
+      <div class="tp-stat-label">Professional Podcast</div>
+    </div>
+    <div class="tp-stat">
+      <div class="tp-stat-num">5+</div>
+      <div class="tp-stat-label">Episodes Live</div>
+    </div>
+    
+  </div>
+</div>
+
+<!-- Powered by -->
+
+
+<!-- Episodes Section -->
+<div class="section-wrap">
+  <div class="section-header reveal">
+    <div class="section-eyebrow">All Episodes</div>
+    <h2 class="section-title">Latest conversations</h2>
+  </div>
+
+  <div class="episode-list">
+
+    <!-- Episode 1 -->
+      <div class="episode-card reveal reveal-delay-3">
+      <div class="ep-thumb-wrap">
+        <img
+          src="{% static 'images/WhatsApp Image 2026-07-01 at 12.39.21 PM.jpeg' %}"
+          alt="Episode 1 thumbnail"
+          onerror="this.style.background='#1a1a1a'; this.style.opacity='0.4';"
+        />
+        <div class="ep-play-overlay">
+          <a href="https://youtu.be/v7HXmfgovEM?si=9fBsei4EZtKHT-HL" target="_blank" class="ep-play-btn">▶</a>
+        </div>
+        <span class="ep-num-badge">EP 01</span>
+      </div>
+      <div class="ep-content">
+        <h3 class="ep-title">Khalid Bukhari on Bahrain Comic Con, Leadership & Entrepreneurship</h3>
+        <p class="ep-desc">Khalid Bukhari reflects on starting Dallah Promotions in a modest 5x5 foot room, emphasizing that the company grew from humble, resource-strapped beginnings into a major event powerhouse.</p>
+        <div class="ep-footer">
+          <a href="https://youtu.be/v7HXmfgovEM?si=9fBsei4EZtKHT-HL" target="_blank" class="ep-watch-btn">▶ Watch on YouTube</a>
+          <button class="ep-share-btn" onclick="shareEp('https://youtu.be/v7HXmfgovEM?si=9fBsei4EZtKHT-HL')">↗ Share</button>
+        </div>
+      </div>
+    </div>
+    <!-- REPLACE: thumbnail src, href links, title, description, date, duration -->
+    
+    <!-- Episode 2 -->
+    <div class="episode-card reveal reveal-delay-2">
+      <div class="ep-thumb-wrap">
+        <img
+          src="{% static 'images/WhatsApp Image 2026-06-27 at 9.34.39 PM.jpeg' %}"
+          alt="Episode 2 thumbnail"
+          onerror="this.style.background='#1a1a1a'; this.style.opacity='0.4';"
+        />
+        <div class="ep-play-overlay">
+          <a href="https://youtu.be/IdaQkMKh1LM?si=qTJ9UAUpd6Yh5ggj" target="_blank" class="ep-play-btn">▶</a>
+        </div>
+        <span class="ep-num-badge">EP 02</span>
+      </div>
+      <div class="ep-content">
+
+        <h3 class="ep-title">Mohamed Isa on Corporate life, Speaking, Writing, Travelling, Mountaineering</h3>
+        <p class="ep-desc">In this episode of The Turning Point, Mohamed Isa shares his journey from corporate CFO to author and mountaineer, emphasizing the power of communication, networking, and constant personal growth.</p>
+        <div class="ep-footer">
+          <a href="https://youtu.be/IdaQkMKh1LM?si=qTJ9UAUpd6Yh5ggj" target="_blank" class="ep-watch-btn">▶ Watch on YouTube</a>
+          <button class="ep-share-btn" onclick="shareEp('https://youtu.be/IdaQkMKh1LM?si=qTJ9UAUpd6Yh5ggj')">↗ Share</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Episode 3 -->
+    <div class="episode-card reveal reveal-delay-1">
+      <div class="ep-thumb-wrap">
+        <!-- Replace with your actual YouTube thumbnail -->
+        <img
+          src="{% static 'images/Screenshot 2026-07-01 124811.png' %}"
+          alt="Episode 3 thumbnail"
+          onerror="this.style.background='#1a1a1a'; this.style.opacity='0.4';"
+        />
+        <div class="ep-play-overlay">
+          <a href="https://youtu.be/W2b-jQj-b_g?si=o16CuH9daVT6cGrZ" target="_blank" class="ep-play-btn">▶</a>
+        </div>
+        <span class="ep-num-badge">EP 03</span>
+      </div>
+      <div class="ep-content">
+        <h3 class="ep-title">Frank Ortega on Fitness, Discipline, Motivation, Consistency</h3>
+        <p class="ep-desc">This video features Frank Ortega, known as "The Alpha Coach," discussing his journey as an entrepreneur and fitness leader. He emphasizes that true success comes from hard work and daily discipline rather than relying solely on motivation.</p>
+        <div class="ep-footer">
+          <a href="https://youtu.be/W2b-jQj-b_g?si=o16CuH9daVT6cGrZ" target="_blank" class="ep-watch-btn">▶ Watch on YouTube</a>
+          <button class="ep-share-btn" onclick="shareEp('https://youtu.be/W2b-jQj-b_g?si=o16CuH9daVT6cGrZ')">↗ Share</button>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- Host Section -->
+<div class="host-section">
+  <div class="host-inner">
+    <div class="host-avatar">LK</div>
+    <div>
+      <div class="host-label">Your Host</div>
+      <div class="host-name">Lakshay Kukreja</div>
+      <p class="host-bio">Co-Founder of The Turning Point Bahrain — Bahrain's first professional podcast, powered by Caribou Coffee. Finance graduate, entrepreneur, and football team founder who believes the best ideas emerge from honest, unscripted conversation.</p>
+      <div class="host-links">
+        <a href="https://www.linkedin.com/in/lakshaykukreja1107/" target="_blank" class="host-link">🔗 LinkedIn</a>
+        <a href="mailto:lakshaykukreja2004@gmail.com" class="host-link">✉️ Email</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Subscribe Strip -->
+<div class="subscribe-strip">
+  <div class="subscribe-inner">
+    <div class="section-eyebrow">Never miss an episode</div>
+    <h2 class="subscribe-title">Follow The Turning Point</h2>
+    <p class="subscribe-sub">Subscribe on your preferred platform and get notified the moment a new conversation drops.</p>
+    <div class="subscribe-platforms">
+      <!-- REPLACE with your actual YouTube channel/playlist link -->
+      <a href="https://youtube.com/@theturningpointbh?si=8N3xxuVKiYlbZBe6" target="_blank" class="platform-btn platform-btn-yt">▶ YouTube</a>
+      <a href="https://www.instagram.com/theturningpoint.bh?igsh=MWl0c2N3c25sdmdtdA==" target="_blank" class="platform-btn platform-btn-outline">📷 Instagram</a>
+    </div>
+  </div>
+</div>
+
+<footer>© 2026 Lakshay Kukreja · The Turning Point Bahrain · Manama, Bahrain</footer>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// Share episode — copies link to clipboard
+function shareEp(url) {
+  navigator.clipboard.writeText(url).then(() => {
+    showToast('Episode link copied!');
+  }).catch(() => {
+    window.open(url, '_blank');
+  });
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+// Scroll reveal
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+revealEls.forEach(el => io.observe(el));
+
+// Mobile nav
+document.getElementById('nt').addEventListener('click', function () {
+  document.getElementById('nl').classList.toggle('show');
+  this.classList.toggle('active');
+});
+</script>
+
+</body>
+</html>

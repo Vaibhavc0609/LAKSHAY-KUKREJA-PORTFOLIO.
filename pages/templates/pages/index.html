@@ -1,0 +1,1252 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lakshay Kukreja — Finance & Data Analytics</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #F8F7F4;
+  --surface: #FFFFFF;
+  --text: #1A1A1A;
+  --muted: #6B6B6B;
+  --faint: #E8E6E0;
+  --accent: #2D5BE3;
+  --accent-soft: #EEF2FD;
+  --gold: #C8860A;
+  --gold-soft: #FDF5E6;
+  --green: #1A7A4A;
+  --green-soft: #EDF7F2;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-hover: 0 12px 40px rgba(0,0,0,0.10), 0 4px 12px rgba(0,0,0,0.06);
+}
+
+body {
+  font-family: 'Times Roman', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── NAV ── */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(248,247,244,0.90);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--faint);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 3rem;
+  height: 64px;
+}
+
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.01em;
+  text-decoration: none;
+}
+
+.nav-logo span { color: var(--accent); }
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.nav-toggle span {
+  width: 24px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.nav-toggle.active span:nth-child(1) {
+  transform: rotate(45deg) translate(10px, 10px);
+}
+
+.nav-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-toggle.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -7px);
+}
+
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--muted);
+  text-decoration: none;
+  letter-spacing: 0.03em;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--accent); }
+
+.nav-links.show {
+  position: fixed;
+  top: 64px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  background: #000;
+  gap: 0;
+  padding: 2rem 0;
+  list-style: none;
+  z-index: 99;
+}
+
+.nav-links.show li {
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.nav-links.show a {
+  display: block;
+  padding: 1rem 2rem;
+  color: #fff;
+  text-decoration: none;
+  font-size: 2rem;
+  transition:  0.2s;
+}
+
+.nav-links.show a:hover {
+  background: rgba(45,91,227,0.2);
+  color: var(--accent);
+}
+
+/* ── HERO ── */
+.hero {
+  width: 100%;
+  background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("{% static 'images/WhatsApp Image 2026-06-24 at 4.06.14 PM.jpeg' %}");
+  height: 100%;
+  background-size: cover;
+}
+
+
+.hero-inner {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 7rem 2rem 5rem;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 3rem;
+  align-items: center;
+}
+
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 5px 14px;
+  border-radius: 999px;
+  margin-bottom: 1.6rem;
+  color:#000
+}
+
+.hero-name {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  margin-bottom: 1.2rem;
+  color:white
+}
+
+.hero-name em { color: var(--accent); font-style: normal;color:white }
+
+.hero-sub {
+  font-size: 1.05rem;
+  color: var(--muted);
+  font-weight: 400;
+  margin-bottom: 2rem;
+  max-width: 520px;
+  line-height: 1.75;
+}
+
+.hero-btns { display:inline-block; gap: 0.8rem; flex-wrap:wrap; }
+
+.btn {
+  display: inline-block;
+  padding: 0.72rem 1.6rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  letter-spacing: 0.02em;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  border: 1.5px solid var(--accent);
+}
+.btn-primary:hover { background: #1E44C2; border-color: #1E44C2; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(45,91,227,0.28); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text);
+  border: 1.5px solid var(--faint);
+}
+.btn-ghost:hover { border-color: var(--text); transform: translateY(-2px); }
+
+/* Hero Stats */
+.hero-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.stat-pill {
+  background: var(--surface);
+  border: 1px solid var(--faint);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.4rem;
+  min-width: 150px;
+  box-shadow: var(--shadow);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.stat-pill:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: var(--shadow-hover);
+}
+
+.stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 3px;
+}
+
+.stat-label {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Divider */
+.divider {
+  max-width: 1060px;
+  margin: 0 auto;
+  border: none;
+  border-top: 1px solid var(--faint);
+}
+
+/* ── SECTIONS ── */
+section {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 5rem 2rem;
+}
+
+.section-header { margin-bottom: 2.8rem; }
+
+.section-eyebrow {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+/* ── ABOUT ── */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.about-body p {
+  font-size: 0.97rem;
+  color: var(--muted);
+  line-height: 1.85;
+  margin-bottom: 1rem;
+}
+
+.about-body p strong { color: var(--text); font-weight: 600; }
+
+.lang-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+  margin-top: 1.6rem;
+}
+
+.lang-item {
+  background: var(--surface);
+  border: 1px solid var(--faint);
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 0.9rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+  font-weight: 500;
+  transition: all 0.22s ease;
+}
+.lang-item:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); border-color: var(--accent); color: var(--accent); }
+
+.about-sidebar {}
+
+.info-card {
+  background: var(--surface);
+  border: 1px solid var(--faint);
+  border-radius: var(--radius);
+  padding: 1.6rem;
+  box-shadow: var(--shadow);
+  margin-bottom: 1rem;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.info-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
+
+.info-card-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+}
+
+.info-card-value {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+/* ── SKILLS ── */
+#skills { background: var(--surface); max-width: 100%; padding: 3rem 0; }
+#skills .inner { max-width: 1060px; margin: 0 auto; padding: 0 2rem; }
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 1rem;
+}
+
+.skill-card {
+  background: var(--bg);
+  border: 1px solid var(--faint);
+  border-radius: var(--radius);
+  padding: 1.4rem 1.2rem;
+  transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+}
+
+
+
+.skill-icon-wrap {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem;
+  margin-bottom: 0.9rem;
+}
+
+.skill-name {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.3rem;
+}
+
+.skill-level {
+  font-size: 0.72rem;
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.skill-bar {
+  margin-top: 0.8rem;
+  height: 2px;
+  background: var(--faint);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.skill-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 999px;
+  width: 0%;
+  transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── EXPERIENCE ── */
+.timeline { position: relative; }
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 6px; bottom: 6px;
+  width: 1px;
+  background: var(--faint);
+}
+
+.tl-item {
+  padding: 0 0 2.8rem 2.2rem;
+  position: relative;
+}
+
+.tl-item::before {
+  content: '';
+  position: absolute;
+  left: -4px; top: 6px;
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 2px solid var(--accent);
+  transition: all 0.22s;
+}
+
+.tl-item:hover::before {
+  background: var(--accent);
+  transform: scale(1.3);
+}
+
+.tl-card {
+  background: var(--surface);
+  border: 1px solid var(--faint);
+  border-radius: var(--radius);
+  padding: 1.5rem 1.6rem;
+  box-shadow: var(--shadow);
+  transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.tl-card:hover {
+  transform: translateX(6px) translateY(-4px);
+  box-shadow: var(--shadow-hover);
+  border-color: rgba(45,91,227,0.25);
+}
+
+.tl-date {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.3rem;
+}
+
+.tl-role {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.15rem;
+}
+
+.tl-company {
+  font-size: 0.85rem;
+  color: var(--accent);
+  font-weight: 500;
+  margin-bottom: 0.7rem;
+}
+
+.tl-desc {
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+/* ── EDUCATION ── */
+#education { background: var(--bg); }
+
+.edu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.2rem;
+}
+
+.edu-card {
+  background: var(--surface);
+  border: 1px solid var(--faint);
+  border-radius: var(--radius);
+  padding: 1.6rem;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.edu-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s ease;
+}
+
+.edu-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-hover);
+  border-color: rgba(45,91,227,0.2);
+}
+
+.edu-card:hover::before { transform: scaleX(1); }
+
+.edu-period {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.6rem;
+}
+
+.edu-degree {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.25rem;
+  line-height: 1.4;
+}
+
+.edu-school {
+  font-size: 0.82rem;
+  color: var(--accent);
+  font-weight: 500;
+  margin-bottom: 0.8rem;
+}
+
+.edu-desc {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+/* ── CERTS ── */
+#certs { background: var(--surface); max-width: 100%; padding: 5rem 0; }
+#certs .inner { max-width: 1060px; margin: 0 auto; padding: 0 2rem; }
+
+.certs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.cert-card {
+  background: var(--bg);
+  border: 1px solid var(--faint);
+  border-radius: var(--radius);
+  padding: 1.2rem;
+  display: flex;
+  gap: 0.9rem;
+  align-items: flex-start;
+  transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cert-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-hover);
+  background: var(--surface);
+  border-color: rgba(45,91,227,0.2);
+}
+
+.cert-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+
+.cert-name {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.4;
+  margin-bottom: 0.2rem;
+}
+
+.cert-issuer {
+  font-size: 0.72rem;
+  color: var(--muted);
+  font-weight: 400;
+}
+
+/* ── CO-CURRICULARS ── */
+.cocurr-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.cocurr-card {
+  background: var(--surface);
+  border: 1px solid var(--faint);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cocurr-card:hover {
+  transform: translateY(-6px) rotate(-0.5deg);
+  box-shadow: var(--shadow-hover);
+  border-color: rgba(200,134,10,0.3);
+}
+
+.cocurr-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.6rem;
+}
+
+.cocurr-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+
+.cocurr-items {
+  list-style: none;
+}
+
+.cocurr-items li {
+  font-size: 0.82rem;
+  color: var(--muted);
+  padding: 3px 0;
+  padding-left: 1rem;
+  position: relative;
+  line-height: 1.5;
+}
+
+.cocurr-items li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--faint);
+  font-size: 0.7rem;
+}
+
+/* ── CONTACT ── */
+#contact {
+  background: var(--text);
+  max-width: 100%;
+  padding: 6rem 2rem;
+}
+
+.contact-inner {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.contact-inner .section-eyebrow { color: #A0A0A0; }
+
+.contact-inner .section-title { color: #fff; margin-bottom: 1rem; }
+
+.contact-tagline {
+  font-size: 0.97rem;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.8;
+  margin-bottom: 2.5rem;
+}
+
+.contact-cards {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.contact-card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius);
+  padding: 0.9rem 1.4rem;
+  color: rgba(255,255,255,0.75);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.25s ease;
+}
+
+.contact-card:hover {
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.25);
+  color: #fff;
+  transform: translateY(-4px);
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--text);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.25);
+}
+
+/* ── SCROLL REVEAL ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+
+.reveal-delay-1 { transition-delay: 0.08s; }
+.reveal-delay-2 { transition-delay: 0.16s; }
+.reveal-delay-3 { transition-delay: 0.24s; }
+.reveal-delay-4 { transition-delay: 0.32s; }
+
+@media (max-width: 768px) {
+  nav { padding: 0 1.2rem; }
+  .nav-toggle { display: flex; }
+  .nav-links { display: none !important; }
+  .nav-links.show { display: flex !important; }
+  .hero { grid-template-columns: 1fr; padding: 4rem 1.5rem 3rem; }
+  .hero-stats { flex-direction: row; flex-wrap: wrap; }
+  .stat-pill { min-width: 120px; }
+  .about-grid { grid-template-columns: 1fr; }
+  section { padding: 3.5rem 1.5rem; }
+}
+
+@media (min-width: 769px) {
+  .nav-toggle { display: none; }
+  .nav-links { display: flex !important; }
+}
+.video-section {
+    width: 100%;
+    padding: 0;
+}
+
+.video-section video {
+    width: 50%;
+    height: 500px;
+    object-fit: cover;
+    display: block;
+}
+.video-container {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    padding: 20px;
+}
+
+.video-container video {
+    width: 50%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+.popup {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.popup-box {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 320px;
+  text-align: center;
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  right: 12px;
+  top: 8px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.flow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+  position: relative;
+}
+
+.flow-box {
+  width: 30%;
+  padding: 10px;
+  text-decoration: none;
+  border-radius: 18px;
+  font-weight: bold;
+  color: white;
+  transition: 0.3s;
+  text-align: center;
+}
+
+.flow-box:hover {
+  transform: scale(1.05);
+}
+
+.bahrain {
+  background:red;
+}
+
+.india {
+  background:#C8860A
+}
+
+.divider-line {
+  width: 2px;
+  height: 60px;
+  background: #ccc;
+}
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+  <a href="#top" class="nav-logo" onclick="goTopAndReload(event)">
+  Lakshay Kukreja
+</a>
+  <button class="nav-toggle" id="nt" aria-label="Menu"><span></span><span></span><span></span></button>
+  <ul class="nav-links" id="nl">
+    <li><a href="{% static 'images/Lakshay_Resume.pdf' %}" target="_blank">Resume</a></li>
+    <li><a href="/podcast">Podcasts</a></li>
+    <li><a href="/blog">Blogs</a></li>
+  </ul>
+</nav>
+
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-inner">
+  <div class="hero-text">
+    <div class="hero-tag">Driven by impact, technology and growth </div>
+    <h1 class="hero-name" id="typewriter"></h1>
+    <p class="hero-sub"></p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn btn-primary">Get in Touch</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+  </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- About -->
+<section id="about">
+  <div class="section-header reveal">
+    <div class="section-eyebrow">Who I Am</div>
+    <h2 class="section-title">Growth Oriented Leader</h2>
+  </div>
+  <div class="about-grid">
+    <div class="about-body reveal">
+      <p>A business professional with a background in finance and business analytics, driven by a passion for digital transformation, AI, and innovation. My journey began with numbers and analysis, but university experiences in operations, event management, and leadership helped me discover my true interest in solving problems, building teams, and turning ideas into reality.
+        <p>I am focused on exploring the intersection of business, technology, and entrepreneurship while continuously learning and adapting to an evolving digital world. Beyond my professional interests, I am an avid sports enthusiast who believes in teamwork, discipline, and continuous growth.</p></p>
+      
+      
+      <div class="lang-grid">
+        <div class="lang-item">🇬🇧 English — Fluent</div>
+        <div class="lang-item">🇮🇳 Hindi — Fluent</div>
+        <div class="lang-item">🇸🇦 Arabic — Basic</div>
+        <div class="lang-item">🇫🇷 French — Basic</div>
+        <div class="lang-item">🇪🇸 Spanish — Basic</div>
+      </div>
+    </div>
+    <div class="about-sidebar">
+      <div class="info-card reveal reveal-delay-1">
+        <div class="info-card-label">Location</div>
+        <div class="info-card-value">Manama, Kingdom of Bahrain</div>
+      </div>
+      <div class="info-card reveal reveal-delay-3">
+        <div class="info-card-label">Current Role</div>
+        <div class="info-card-value">Co-Founder, The Turning Point Bahrain</div>
+      </div>
+      <div class="info-card reveal reveal-delay-4">
+        <div class="info-card-label">Education</div>
+        <div class="info-card-value">BBA Finance & Accountancy, Christ University</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- Skills -->
+<section id="skills">
+  <div class="inner">
+    <div class="section-header reveal">
+      
+      <h2 class="section-title">Core skills</h2>
+    </div>
+    <div class="skills-grid">
+        <div class="skill-card reveal reveal-delay-1">
+        <div class="skill-icon-wrap" style="background:#EEF2FD;">🗣️</div>
+        <div class="skill-name">Effective Communication</div>
+      </div>
+      <div class="skill-card reveal reveal-delay-2">
+        <div class="skill-icon-wrap" style="background:#EEF2FD;">📱</div>
+        <div class="skill-name">Social Media Handling</div>
+      </div>
+      <div class="skill-card reveal reveal-delay-3">
+        <div class="skill-icon-wrap" style="background:#EEF2FD;">🎬</div>
+        <div class="skill-name">Video Editing</div>
+      </div>
+      <div class="skill-card reveal reveal-delay-4">
+        <div class="skill-icon-wrap" style="background:#EEF2FD;">📊</div>
+        <div class="skill-name">Microsoft Power BI</div>
+      </div>
+      <div class="skill-card reveal reveal-delay-5">
+        <div class="skill-icon-wrap" style="background:#EDF7F2;">📗</div>
+        <div class="skill-name">Microsoft Excel</div>
+      </div>
+      <div class="skill-card reveal reveal-delay-6">
+        <div class="skill-icon-wrap" style="background:#FEF0F0;">📈</div>
+        <div class="skill-name">Bloomberg Market Concepts </div>
+      </div>
+      <div class="skill-card reveal reveal-delay-7">
+        <div class="skill-icon-wrap" style="background:#EEF2FD;">🤝</div>
+        <div class="skill-name">Event Management</div>
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- Experience -->
+<section id="experience">
+  <div class="section-header reveal">
+    <div class="section-eyebrow">Career Path</div>
+    <h2 class="section-title">Work experience</h2>
+  </div>
+  <div class="timeline">
+    <div class="tl-item reveal">
+      <div class="tl-card">
+        <div class="tl-date">April 2026 — Present</div>
+        <div class="tl-role">Co-Founder</div>
+        <div class="tl-company">The Turning Point Bahrain</div>
+        <div class="tl-desc">First professional podcast of the Kingdom of Bahrain, Powered by Caribou Coffee.</div>
+      </div>
+    </div>
+    <div class="tl-item reveal">
+      <div class="tl-card">
+        <div class="tl-date">Sep 2025 — Oct 2025</div>
+        <div class="tl-role">Finance Analyst- Aluminium Bahrain (ALBA)</div>
+        <div class="tl-company">Financial and Controlling Department</div>
+        <div class="tl-desc">Hands-on experience in financial analysis, reporting, and data-driven decision making within a corporate finance environment.</div>
+      </div>
+    </div>
+    <div class="tl-item reveal">
+      <div class="tl-card">
+        <div class="tl-date">Jan 2020 — Present</div>
+        <div class="tl-role">Founder- Local Football Team</div>
+        <div class="tl-company">KFH-TITANS</div>
+        <div class="tl-desc">Lead and founded a football team and won various achievements in multiple local tournaments in the Kingdom of Bahrain. Also sponsored by The Turning Point Bahrain.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- Education -->
+<section id="education">
+  <div class="section-header reveal">
+    <div class="section-eyebrow">Academic Journey</div>
+    <h2 class="section-title">Education</h2>
+  </div>
+  <div class="edu-grid">
+    <div class="edu-card reveal reveal-delay-1">
+      <div class="edu-period">Jan 2026 — Mar 2026</div>
+      <div class="edu-degree">AI, Analytics & Disruptive Technologies for BI</div>
+      <div class="edu-school">IIM Mumbai — Global Online Course</div>
+      <div class="edu-desc">Advanced program covering AI, data analytics, and emerging business intelligence technologies from one of India's premier management institutes.</div>
+    </div>
+    <div class="edu-card reveal reveal-delay-2">
+      <div class="edu-period">2025 — Present</div>
+      <div class="edu-degree">ACCA — Association of Chartered Certified Accountants</div>
+      <div class="edu-school">ACCA Global</div>
+      <div class="edu-desc">Currently a finalist on track to become a fully qualified ACCA member.</div>
+    </div>
+    <div class="edu-card reveal reveal-delay-3">
+      <div class="edu-period">2022 — 2025</div>
+      <div class="edu-degree">BBA — Finance & Accountancy</div>
+      <div class="edu-school">Christ University, Bangalore</div>
+      <div class="edu-desc">Department of Professional Studies. Led multiple events, served on the Operations Committee (SWO), FIC VP Logistics, Head of Operations for ACE Consortium.</div>
+    </div>
+    <div class="edu-card reveal reveal-delay-4">
+      <div class="edu-period">2008 — 2022</div>
+      <div class="edu-degree">KG–12, CBSE Board</div>
+      <div class="edu-school">New Millennium School — DPS, Bahrain</div>
+      <div class="edu-desc">Organized TEDx Bahrain, WYC MUN 2019, NMMUN 2020 (Head of Security).</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- Co-Curriculars -->
+<section id="cocurr">
+  <div class="section-header reveal">
+    <div class="section-eyebrow">Beyond the Desk</div>
+    <h2 class="section-title">Activities & achievements</h2>
+  </div>
+  <div class="cocurr-grid">
+    <div class="cocurr-card reveal reveal-delay-1">
+      <div class="cocurr-label">Football</div>
+      <div class="cocurr-title">Christ University Football Team</div>
+      <ul class="cocurr-items">
+        <li>Chrispo Winners ×2</li>
+        <li>Pedagogic League Winners ×1</li>
+        <li>MOTM — One Day Tournament, Yeshwanthpur Campus</li>
+      </ul>
+    </div>
+    <div class="cocurr-card reveal reveal-delay-2">
+      <div class="cocurr-label">Events Organised</div>
+      <div class="cocurr-title">Top Events</div>
+      <ul class="cocurr-items">
+        <li>TEDx Bahrain — Organizer</li>
+        <li>Cognito ×2 — Bangalore Circuit Business Fest</li>
+        <li>WYC MUN 2019 — Organizer</li>
+        <li>NMMUN 2020 — Head of Security</li>
+        <li>Proathlon — Sports Fest, Head of Operations</li>
+      </ul>
+    </div>
+    <div class="cocurr-card reveal reveal-delay-3">
+      <div class="cocurr-label">Leadership Roles</div>
+      <div class="cocurr-title">Student Bodies</div>
+      <ul class="cocurr-items">
+        <li>VP Logistics — Finance & Investment Cell (FIC)</li>
+        <li>Sub Core Member — Student Welfare Office</li>
+        <li>Head of Operations — ACE Consortium</li>
+        <li>Team Professionals (Theatre) — Admin & Docs</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- Certifications -->
+<section id="certs">
+  <div class="inner">
+    <div class="section-header reveal">
+      <div class="section-eyebrow">Credentials</div>
+      <h2 class="section-title">Certifications & licences</h2>
+    </div>
+    <div class="certs-grid">
+      <div class="cert-card reveal reveal-delay-1"><div class="cert-dot"></div><div><div class="cert-name">Investment Risk Management</div><div class="cert-issuer">Coursera · Sep 2025</div></div></div>
+      <div class="cert-card reveal reveal-delay-2"><div class="cert-dot"></div><div><div class="cert-name">Preparing Data for Analysis with Microsoft Excel</div><div class="cert-issuer">Microsoft · Sep 2025</div></div></div>
+      <div class="cert-card reveal reveal-delay-3"><div class="cert-dot"></div><div><div class="cert-name">Social Media Visuals for Business</div><div class="cert-issuer">Canva · Sep 2025</div></div></div>
+      <div class="cert-card reveal reveal-delay-4"><div class="cert-dot"></div><div><div class="cert-name">Bloomberg Market Concepts (BMC)</div><div class="cert-issuer">Bloomberg · Apr 2025</div></div></div>
+      <div class="cert-card reveal reveal-delay-1"><div class="cert-dot"></div><div><div class="cert-name">Introduction to Business Intelligence</div><div class="cert-issuer">CFI · Oct 2023</div></div></div>
+      <div class="cert-card reveal reveal-delay-2"><div class="cert-dot"></div><div><div class="cert-name">Problem Solving with Excel</div><div class="cert-issuer">PwC</div></div></div>
+      <div class="cert-card reveal reveal-delay-3"><div class="cert-dot"></div><div><div class="cert-name">Analyzing & Visualizing Data with Excel</div><div class="cert-issuer">PwC</div></div></div>
+      <div class="cert-card reveal reveal-delay-4"><div class="cert-dot"></div><div><div class="cert-name">Data Driven Decision Making</div><div class="cert-issuer">PwC</div></div></div>
+      <div class="cert-card reveal reveal-delay-1"><div class="cert-dot"></div><div><div class="cert-name">Sustainability in Banking Job Simulation</div><div class="cert-issuer">ACCA · Sep 2025</div></div></div>
+      <div class="cert-card reveal reveal-delay-2"><div class="cert-dot"></div><div><div class="cert-name">Extract, Transform & Load Data in Power BI</div><div class="cert-issuer">Microsoft · Sep 2025</div></div></div>
+      <div class="cert-card reveal reveal-delay-3"><div class="cert-dot"></div><div><div class="cert-name">Harnessing the Power of Data with Power BI</div><div class="cert-issuer">Microsoft · Sep 2025</div></div></div>
+      <div class="cert-card reveal reveal-delay-4"><div class="cert-dot"></div><div><div class="cert-name">SQL Foundations</div><div class="cert-issuer">Microsoft · Sep 2025</div></div></div>
+      <div class="cert-card reveal reveal-delay-1"><div class="cert-dot"></div><div><div class="cert-name">AIFF D License of Coaching Football</div><div class="cert-issuer">All India Football Federation</div></div></div>
+    </div>
+  </div>
+</section>
+<!-- Video Section -->
+<section class="video-section">
+<div class="video-container">
+    <video autoplay muted loop>
+         <source src="{% static 'videos/IMG_7738.MOV' %}" type="video/mp4">
+    </video>
+
+    <video  autoplay muted loop>
+        <source src="{% static 'videos/IMG_7982 3.mov' %}" type="video/mp4">
+    </video>
+</div>
+</section>
+
+
+<!-- Contact -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="section-eyebrow">Get In Touch</div>
+    <h2 class="section-title">Let's connect.</h2>
+    <p class="contact-tagline">Building relationships, sharing ideas, and creating opportunities one conversation at a time.</p>
+    <div class="contact-cards">
+      <a class="contact-card" href="#" onclick="openPhonePopup()">📞 Call</a>
+
+<div id="phonePopup" class="popup">
+  <div class="popup-box">
+
+    <span class="close" onclick="closePhonePopup()">&times;</span>
+
+    <h3>Select Country</h3>
+
+    <div class="flow">
+
+      <a href="tel:+97332142300" class="flow-box bahrain">
+         Bahrain
+      </a>
+
+      <div class="divider-line"></div>
+
+      <a href="tel:+918810570157" class="flow-box india">
+        India
+      </a>
+
+    </div>
+
+  </div>
+</div>
+      <a class="contact-card" href="mailto:lakshaykukreja2004@gmail.com">✉️ Email</a>
+      <a class="contact-card" href="https://www.linkedin.com/in/lakshaykukreja1107/" target="_blank">🔗 LinkedIn</a>
+    </div>
+  </div>
+</section>
+
+<footer>© 2026 Lakshay Kukreja · Manama, Bahrain</footer>
+
+
+<script>
+function openPhonePopup() {
+  document.getElementById("phonePopup").style.display = "flex";
+}
+
+function closePhonePopup() {
+  document.getElementById("phonePopup").style.display = "none";
+}
+
+
+const lines = ["LAKSHAY", "KUKREJA"];
+const speed = 90;
+
+let i = 0;
+let j = 0;
+
+function typeWriter() {
+    if (i < lines.length) {
+        let element = document.getElementById("typewriter");
+
+        if (j < lines[i].length) {
+            element.innerHTML += lines[i].charAt(j);
+            j++;
+        } else {
+            element.innerHTML += "<br>";
+            i++;
+            j = 0;
+        }
+
+        setTimeout(typeWriter, speed);
+    }
+}
+
+window.onload = typeWriter;
+function goTopAndReload(event) {
+    event.preventDefault();
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+    setTimeout(() => {
+        location.reload();
+    }, 500);
+}
+// Scroll reveal
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+revealEls.forEach(el => io.observe(el));
+
+// Skill bar animation
+const fills = document.querySelectorAll('.skill-fill');
+const fillIO = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.width = e.target.dataset.width + '%';
+      fillIO.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.4 });
+fills.forEach(f => fillIO.observe(f));
+
+// Smooth active nav link
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+const navIO = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(l => l.style.color = '');
+      const active = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
+      if (active) active.style.color = '#2D5BE3';
+    }
+  });
+}, { threshold: 0.4 });
+sections.forEach(s => navIO.observe(s));
+</script>
+
+</body>
+</html>
+
+

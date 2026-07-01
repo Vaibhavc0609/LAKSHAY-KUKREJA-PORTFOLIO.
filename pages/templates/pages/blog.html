@@ -1,0 +1,662 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog — Lakshay Kukreja</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #F8F7F4;
+  --surface: #FFFFFF;
+  --text: #1A1A1A;
+  --muted: #6B6B6B;
+  --faint: #E8E6E0;
+  --accent: #2D5BE3;
+  --accent-soft: #EEF2FD;
+  --gold: #C8860A;
+  --gold-soft: #FDF5E6;
+  --danger: #C4392B;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-hover: 0 12px 40px rgba(0,0,0,0.10), 0 4px 12px rgba(0,0,0,0.06);
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── NAV ── */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(248,247,244,0.90);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--faint);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 3rem;
+  height: 64px;
+}
+
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.nav-toggle { display: none; flex-direction: column; gap: 6px; background: none; border: none; cursor: pointer; }
+.nav-toggle span { width: 24px; height: 2px; background: var(--text); border-radius: 2px; }
+
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a { font-size: 0.82rem; font-weight: 500; color: var(--muted); text-decoration: none; letter-spacing: 0.03em; transition: color 0.2s; }
+.nav-links a:hover { color: var(--accent); }
+.nav-links a.current { color: var(--accent); }
+
+.nav-links.show {
+  position: fixed; top: 64px; left: 0; right: 0; bottom: 0;
+  display: flex; flex-direction: column; background: #000;
+  gap: 0; padding: 2rem 0; z-index: 99;
+}
+.nav-links.show li { border-bottom: 1px solid rgba(255,255,255,0.1); }
+.nav-links.show a { display: block; padding: 1rem 2rem; color: #fff; font-size: 2rem; }
+
+/* ── PAGE HEADER ── */
+.page-header {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 4.5rem 2rem 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.header-copy { max-width: 560px; }
+
+.section-eyebrow {
+  font-size: 0.7rem; font-weight: 600; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 0.6rem;
+}
+
+.page-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  font-weight: 700; letter-spacing: -0.02em; color: var(--text); margin-bottom: 1rem;
+}
+
+.page-sub { font-size: 1rem; color: var(--muted); line-height: 1.8; }
+
+.divider { max-width: 1060px; margin: 0 auto; border: none; border-top: 1px solid var(--faint); }
+
+/* ── OWNER TOGGLE ── */
+.owner-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--text);
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 999px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  white-space: nowrap;
+}
+.owner-toggle:hover { background: #000; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.18); }
+.owner-toggle svg { width: 15px; height: 15px; transition: transform 0.25s ease; }
+.owner-toggle.is-open svg { transform: rotate(45deg); }
+
+/* ── COMPOSER PANEL ── */
+.owner-panel {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.owner-panel.is-open { max-height: 1400px; }
+
+.composer {
+  background: var(--surface);
+  border: 1px solid var(--faint);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin: 2.4rem 0 0.5rem;
+  overflow: hidden;
+}
+
+.composer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.3rem 1.8rem;
+  border-bottom: 1px solid var(--faint);
+  background: var(--bg);
+}
+
+.composer-head-title {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.owner-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: var(--gold-soft);
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.composer-body {
+  padding: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.field-row { display: flex; flex-direction: column; }
+
+.field-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.55rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.field-label .optional { font-weight: 400; color: var(--muted); font-size: 0.72rem; text-transform: none; letter-spacing: 0; }
+
+.field-input,
+.field-textarea {
+  width: 100%;
+  border: 1px solid var(--faint);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  padding: 0.8rem 1rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.92rem;
+  color: var(--text);
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+.field-input::placeholder,
+.field-textarea::placeholder { color: #A5A5A5; }
+
+.field-input:focus,
+.field-textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: var(--surface);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.field-textarea { resize: vertical; min-height: 220px; line-height: 1.85; }
+
+.field-hint { font-size: 0.74rem; color: var(--muted); margin-top: 0.5rem; }
+.char-count { font-variant-numeric: tabular-nums; }
+
+/* Upload zone */
+.field-upload {
+  border: 1.5px dashed var(--faint);
+  border-radius: var(--radius-sm);
+  padding: 1.8rem;
+  text-align: center;
+  background: var(--bg);
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  position: relative;
+}
+.field-upload:hover,
+.field-upload.is-dragover { border-color: var(--accent); background: var(--accent-soft); }
+.field-upload input[type="file"] {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  opacity: 0; cursor: pointer;
+}
+.field-upload-icon {
+  width: 38px; height: 38px;
+  margin: 0 auto 0.7rem;
+  border-radius: 10px;
+  background: var(--accent-soft);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+}
+.field-upload-text { font-size: 0.82rem; color: var(--muted); }
+.field-upload-text strong { color: var(--accent); font-weight: 600; }
+.field-upload-meta { font-size: 0.7rem; color: #A5A5A5; margin-top: 0.35rem; }
+
+/* Upload preview (shown once an image is chosen) */
+.upload-preview {
+  display: none;
+  border: 1px solid var(--faint);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--bg);
+}
+.upload-preview.is-active { display: block; }
+.upload-preview img { width: 100%; max-height: 260px; object-fit: cover; display: block; }
+.upload-preview-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--faint);
+  background: var(--surface);
+}
+.upload-preview-name { font-size: 0.78rem; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 70%; }
+.upload-preview-remove {
+  font-size: 0.76rem; font-weight: 600; color: var(--danger);
+  background: none; border: none; cursor: pointer; padding: 0;
+}
+.upload-preview-remove:hover { text-decoration: underline; }
+
+.composer-foot {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.9rem;
+  padding: 1.2rem 1.8rem;
+  border-top: 1px solid var(--faint);
+  background: var(--bg);
+}
+
+.btn-cancel {
+  background: none;
+  border: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0.7rem 1rem;
+}
+.btn-cancel:hover { color: var(--text); }
+
+.btn-submit {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 0.78rem 1.8rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition: all 0.22s ease;
+}
+.btn-submit:hover { background: #1E44C2; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(45,91,227,0.28); }
+
+/* ── BLOG GRID ── */
+.blog-wrap { max-width: 1060px; margin: 0 auto; padding: 3.5rem 2rem 6rem; }
+
+.blog-wrap-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 1.8rem; }
+.blog-wrap-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; }
+.blog-wrap-count { font-size: 0.78rem; color: var(--muted); }
+
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.6rem;
+}
+
+.blog-card {
+  background: var(--surface);
+  border: 1px solid var(--faint);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.blog-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-hover); border-color: rgba(45,91,227,0.2); }
+
+.blog-card-img { width: 100%; height: 200px; object-fit: cover; background: var(--faint); display: block; }
+
+.blog-card-body { padding: 1.4rem 1.5rem 1.6rem; display: flex; flex-direction: column; flex: 1; }
+
+.blog-card-date {
+  font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 0.6rem;
+}
+
+.blog-card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem; font-weight: 700; color: var(--text); line-height: 1.35; margin-bottom: 0.7rem;
+}
+
+.blog-card-excerpt { font-size: 0.86rem; color: var(--muted); line-height: 1.7; flex: 1; }
+
+.blog-card-more { margin-top: 1.1rem; font-size: 0.8rem; font-weight: 600; color: var(--accent); letter-spacing: 0.02em; }
+
+.blog-empty {
+  border: 1px dashed var(--faint);
+  border-radius: var(--radius);
+  padding: 3.5rem 2rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.92rem;
+  grid-column: 1 / -1;
+}
+.blog-empty span { display: block; font-size: 1.8rem; margin-bottom: 0.8rem; }
+
+/* ── FOOTER ── */
+footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.06); text-align: center; padding: 1.5rem; font-size: 0.78rem; color: rgba(255,255,255,0.25); }
+
+@media (max-width: 768px) {
+  nav { padding: 0 1.2rem; }
+  .nav-toggle { display: flex; }
+  .nav-links { display: none !important; }
+  .nav-links.show { display: flex !important; }
+  .page-header { padding: 3rem 1.5rem 2rem; flex-direction: column; align-items: flex-start; }
+  .owner-panel { padding: 0 1.5rem; }
+  .blog-wrap { padding: 2rem 1.5rem 4rem; }
+  .composer-body { padding: 1.4rem; }
+  .composer-foot { padding: 1rem 1.4rem; flex-wrap: wrap; }
+}
+@media (min-width: 769px) {
+  .nav-toggle { display: none; }
+  .nav-links { display: flex !important; }
+}
+#contact {
+  background: var(--text);
+  max-width: 100%;
+  padding: 6rem 2rem;
+}
+
+.contact-inner {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.contact-inner .section-eyebrow { color: #A0A0A0; }
+
+.contact-inner .section-title { color: #fff; margin-bottom: 1rem; }
+
+.contact-tagline {
+  font-size: 0.97rem;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.8;
+  margin-bottom: 2.5rem;
+}
+
+.contact-cards {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.contact-card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius);
+  padding: 0.9rem 1.4rem;
+  color: rgba(255,255,255,0.75);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.25s ease;
+}
+
+.contact-card:hover {
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.25);
+  color: #fff;
+  transform: translateY(-4px);
+}
+.bahrain {
+  background:red;
+}
+
+.india {
+  background:#C8860A
+}
+
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+  <a href="/" class="nav-logo">Lakshay Kukreja</a>
+  <button class="nav-toggle" id="nt" aria-label="Menu"><span></span><span></span><span></span></button>
+  <ul class="nav-links" id="nl">
+    <li><a href="{% static 'images/Lakshay_Resume.pdf' %}" target="_blank">Resume</a></li>
+    <li><a href="/podcast">Podcasts</a></li>
+    <li><a href="/blog" class="current">Blogs</a></li>
+  </ul>
+</nav>
+
+<!-- Page Header -->
+<div class="page-header">
+  <div class="header-copy">
+    <div class="section-eyebrow">Notes & Reflections</div>
+    <h1 class="page-title"> Blogs</h1>
+   
+  </div>
+
+  {% if user.is_authenticated and user.is_staff %}
+  <button type="button" class="owner-toggle" id="composerToggle">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+    New post
+  </button>
+  {% endif %}
+</div>
+
+{% if user.is_authenticated and user.is_staff %}
+<!-- Composer: only rendered for the logged-in owner/staff, hidden by default until "New post" is clicked -->
+<div class="owner-panel" id="composerPanel">
+  <form class="composer" method="POST" enctype="multipart/form-data" action="{% url 'blog_create' %}">
+    {% csrf_token %}
+
+    <div class="composer-head">
+      <div class="composer-head-title">Compose a new post</div>
+      <div class="owner-badge">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1l3 7 7 1-5 5 1.5 7L12 17l-6.5 4L7 14 2 9l7-1z"/></svg>
+        Owner only
+      </div>
+    </div>
+
+    <div class="composer-body">
+
+      <div class="field-row">
+        <label class="field-label" for="post-title">Title <span class="optional">required</span></label>
+        <input class="field-input" type="text" id="post-title" name="title" maxlength="90" placeholder="Give your post a clear, specific title" required>
+        <div class="field-hint"><span class="char-count" id="titleCount">0</span> / 90</div>
+      </div>
+
+      <div class="field-row">
+        <label class="field-label" for="post-image">Cover image <span class="optional">optional</span></label>
+
+        <label class="field-upload" id="uploadZone" for="post-image">
+          <div class="field-upload-icon">📷</div>
+          <div class="field-upload-text"><strong>Click to upload</strong> or drag an image here</div>
+          <div class="field-upload-meta">JPG, PNG or WEBP · up to 10 MB</div>
+          <input type="file" id="post-image" name="image" accept="image/*">
+        </label>
+
+        <div class="upload-preview" id="uploadPreview">
+          <img id="uploadPreviewImg" src="" alt="Selected cover">
+          <div class="upload-preview-footer">
+            <span class="upload-preview-name" id="uploadPreviewName"></span>
+            <button type="button" class="upload-preview-remove" id="uploadPreviewRemove">Remove</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <label class="field-label" for="post-content">Write your post <span class="optional">required</span></label>
+        <textarea class="field-textarea" id="post-content" name="content" placeholder="Start writing here..." required></textarea>
+      </div>
+
+    </div>
+
+    <div class="composer-foot">
+      <button type="button" class="btn-cancel" id="composerCancel">Cancel</button>
+      <button type="submit" class="btn-submit">Publish post</button>
+    </div>
+  </form>
+</div>
+{% endif %}
+
+<hr class="divider">
+
+<!-- Blog Grid -->
+<div class="blog-wrap">
+  <div class="blog-wrap-head">
+    <div class="blog-wrap-title">All posts</div>
+    <div class="blog-wrap-count">{{ posts|length }} post{{ posts|length|pluralize }}</div>
+  </div>
+  <div class="blog-grid">
+    {% for post in posts %}
+    <a href="{% url 'blog_detail' post.pk %}" class="blog-card">
+      {% if post.image %}
+        <img src="{{ post.image.url }}" alt="{{ post.title }}" class="blog-card-img">
+      {% else %}
+        <img src="{% static 'images/blog-placeholder.jpg' %}" alt="{{ post.title }}" class="blog-card-img">
+      {% endif %}
+      <div class="blog-card-body">
+        <div class="blog-card-date">{{ post.created_at|date:"M Y" }}</div>
+        <div class="blog-card-title">{{ post.title }}</div>
+        <div class="blog-card-excerpt">{{ post.content|truncatewords:22 }}</div>
+        <div class="blog-card-more">Read more →</div>
+      </div>
+    </a>
+    {% empty %}
+    <div class="blog-empty">
+      <span>✍️</span>
+      No posts yet — first one's coming soon.
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+
+
+<footer>© 2026 Lakshay Kukreja · Manama, Bahrain</footer>
+
+<script>
+// mobile nav
+const nt = document.getElementById('nt');
+const nl = document.getElementById('nl');
+if (nt) {
+  nt.addEventListener('click', () => {
+    nt.classList.toggle('active');
+    nl.classList.toggle('show');
+  });
+}
+
+// composer open/close
+const toggleBtn = document.getElementById('composerToggle');
+const panel = document.getElementById('composerPanel');
+const cancelBtn = document.getElementById('composerCancel');
+
+function openComposer() {
+  panel.classList.add('is-open');
+  toggleBtn.classList.add('is-open');
+  toggleBtn.childNodes[2].textContent = ' Close';
+  setTimeout(() => document.getElementById('post-title').focus(), 350);
+}
+function closeComposer() {
+  panel.classList.remove('is-open');
+  toggleBtn.classList.remove('is-open');
+  toggleBtn.childNodes[2].textContent = ' New post';
+}
+
+if (toggleBtn) {
+  toggleBtn.addEventListener('click', () => {
+    panel.classList.contains('is-open') ? closeComposer() : openComposer();
+  });
+}
+if (cancelBtn) {
+  cancelBtn.addEventListener('click', () => {
+    document.getElementById('post-title').value = '';
+    document.getElementById('post-content').value = '';
+    resetUpload();
+    closeComposer();
+  });
+}
+
+// title character counter
+const titleInput = document.getElementById('post-title');
+const titleCount = document.getElementById('titleCount');
+if (titleInput) {
+  titleInput.addEventListener('input', () => {
+    titleCount.textContent = titleInput.value.length;
+  });
+}
+
+// image upload preview + drag state
+const fileInput = document.getElementById('post-image');
+const uploadZone = document.getElementById('uploadZone');
+const uploadPreview = document.getElementById('uploadPreview');
+const uploadPreviewImg = document.getElementById('uploadPreviewImg');
+const uploadPreviewName = document.getElementById('uploadPreviewName');
+const uploadPreviewRemove = document.getElementById('uploadPreviewRemove');
+
+function showPreview(file) {
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    uploadPreviewImg.src = e.target.result;
+    uploadPreviewName.textContent = file.name;
+    uploadZone.style.display = 'none';
+    uploadPreview.classList.add('is-active');
+  };
+  reader.readAsDataURL(file);
+}
+
+function resetUpload() {
+  if (fileInput) fileInput.value = '';
+  uploadPreviewImg.src = '';
+  uploadPreview.classList.remove('is-active');
+  uploadZone.style.display = '';
+}
+
+if (fileInput) {
+  fileInput.addEventListener('change', () => {
+    if (fileInput.files && fileInput.files[0]) showPreview(fileInput.files[0]);
+  });
+  ['dragenter', 'dragover'].forEach(evt =>
+    uploadZone.addEventListener(evt, (e) => { e.preventDefault(); uploadZone.classList.add('is-dragover'); })
+  );
+  ['dragleave', 'drop'].forEach(evt =>
+    uploadZone.addEventListener(evt, (e) => { e.preventDefault(); uploadZone.classList.remove('is-dragover'); })
+  );
+}
+if (uploadPreviewRemove) {
+  uploadPreviewRemove.addEventListener('click', resetUpload);
+}
+</script>
+
+</body>
+</html>
